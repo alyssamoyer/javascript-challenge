@@ -1,6 +1,6 @@
 // from data.js
 var tableData = data;
-function updateTable(dataSelect){
+function createTable(dataSelect){
 
 //select the table body from index
 var tbody = d3.select("tbody");
@@ -16,50 +16,31 @@ dataSelect.forEach((ufo) => {
   });
 
 };
-//creates table with all UFO data
-updateTable(tableData);
+//calls the create table function
+createTable(tableData);
 
 //variable for the button on the page
 var button = d3.select("#filter-btn");
-
-  //var userInput = d3.select("#form-control");
-
-  //var inputValue = userInput.property("value");
-
- // console.log(inputValue);
-//  var table = d3.select('tbody');
-//  var rows = table.selectAll("tr");
-//  //console.log(rows);
-//  var td = rows.selectAll("td");
-//  //console.log(td);
-// Array.from(td).forEach((ind) => {
-//   console.log(ind);
-// });
+ 
   
 button.on("click", function() {
     
-    // Select the input element and get the raw HTML node
+    //Select the user input
     var userInput = d3.select("#datetime");
-  
-    // Get the value property of the input element
     var inputValue = userInput.property("value");
   
     console.log(inputValue);
     
-  
+    //filter the dataset to match user input
     var dataSearch = tableData.filter(ufo => ufo.datetime === inputValue);
-    if (inputValue == null){
-      console.log("Please enter a date");
+   
       console.log(dataSearch);
-    }
-    else if (dataSearch == null) {
-      console.log("No entries for this date. Please make sure your date is valid")
-    } 
-    else {
-      console.log(dataSearch);
+
+      //Remove the curent table rows
        var tbody = d3.select("tbody");
        var rows = tbody.selectAll("tr").remove();
 
+       //Add the table rows containing the user entered date
        dataSearch.forEach((ufo) => {
          var row = tbody.append("tr");
          Object.entries(ufo).forEach(([key, value]) => {
@@ -67,8 +48,7 @@ button.on("click", function() {
          cell.text(value);
       });
     });
-    }
-    
+      
    
 
 });
